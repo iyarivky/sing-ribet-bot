@@ -15,3 +15,5 @@ this bot use malikshi`s config (https://github.com/malikshi/sing-box-examples)
 
 PM me if you wanna ask something or just say hi to me
 [@iya_rivvikyn](https://t.me/iya_rivvikyn)
+
+![ini istri aku](https://github.com/iyarivky/sing-ribet/assets/101973571/d7b5f497-ba06-46d9-925e-8eabcbce92cf)
