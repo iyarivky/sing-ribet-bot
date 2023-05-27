@@ -4,8 +4,8 @@
 this bot use malikshi`s config (https://github.com/malikshi/sing-box-examples)
 
 ### To-Do
-- [ ] Support send config via direct and url (like pastebin, raw github, etc)
+- [ ] Support send v2ray url via direct and url (like pastebin, raw github, etc)
 - [ ] Implement ternary operator
-- [ ] Send config as file
+- [ ] Receive config as file
 - [ ] Deploy code to Cloudflare Workers
 - [ ] Make sure this code can run under 10ms (cloudflare worker free tier limitation lol)
