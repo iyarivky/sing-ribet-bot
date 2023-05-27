@@ -17,33 +17,55 @@ async function main() {
   console.log(config);
   for (let i = 0; i < config.proxies.length; i++) {
     const proxy = config.proxies[i];
-    console.log('Name:',proxy.name);
-    console.log('Type:',proxy.type);
-    console.log('Server:',proxy.server);
-    console.log('Port:',proxy.port);
-    console.log('Network:',proxy.network);
-    if (proxy.type === 'vmess') {
+    let name = proxy.name
+    let type = proxy.type
+    let server = proxy.server
+    let port = proxy.port
+    let network = proxy.network
+    let skipCertVerify = proxy['skip-cert-verify']
+    console.log('Name:',name);
+    console.log('Type:',type);
+    console.log('Server:',server);
+    console.log('Port:',port);
+    console.log('Network:',network);
+    console.log('Koneksi Tidak Aman:',skipCertVerify);
+    if (type === 'vmess') {
       //uuid, alterId, cipher, tls, servername
-      console.log('UUID:',proxy.uuid)
-      console.log('alterId:',proxy.alterId)
-      console.log('Security:',proxy.cipher)
-      console.log('TLS:',proxy.tls)
-      console.log('SNI:',proxy.servername)
+      let uuid = proxy.uuid
+      let alterId = proxy.alterId
+      let security = proxy.cipher
+      let tls = proxy.tls
+      let sni = proxy.servername
+      console.log('UUID:',uuid)
+      console.log('alterId:',alterId)
+      console.log('Security:',security)
+      console.log('TLS:',tls)
+      console.log('SNI:',sni)
     } else if (proxy.type === 'vless') {
-      //uuid, tls, servername
-      console.log('UUID:',proxy.uuid)
-      console.log('TLS:',proxy.tls)
-      console.log('SNI:',proxy.servername)
+      //uuid, tls, servername, cipher
+      let uuid = proxy.uuid
+      let security = proxy.cipher
+      let tls = proxy.tls
+      let sni = proxy.servername
+      console.log('UUID:',uuid)
+      console.log('Security:',security)
+      console.log('TLS:',tls)
+      console.log('SNI:',sni)
     } else if (proxy.type === 'trojan') {
-      // password, sni 
-      console.log('Password:',proxy.password)
-      console.log('SNI:',proxy.sni)
+      // password, sni
+      let password = proxy.password
+      let sni = proxy.sni 
+      console.log('Password:',password)
+      console.log('SNI:',sni)
     }
     if (proxy.network === 'ws') {
-      console.log('Path:',proxy['ws-opts'].path);
-      console.log('Host:',proxy['ws-opts'].headers.Host);
+      let path = proxy['ws-opts'].path
+      let host = proxy['ws-opts'].headers.Host
+      console.log('Path:',path);
+      console.log('Host:',host);
     } else if (proxy.network === 'grpc') {
-      console.log('grpc service name:',proxy['grpc-opts']['grpc-service-name']);
+      let grpcServiceName = proxy['grpc-opts']['grpc-service-name']
+      console.log('grpc service name:',grpcServiceName);
     }
     console.log('===')
   }
