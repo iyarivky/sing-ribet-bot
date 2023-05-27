@@ -9,3 +9,4 @@ this bot use malikshi`s config (https://github.com/malikshi/sing-box-examples)
 - [ ] Receive config as file
 - [ ] Deploy code to Cloudflare Workers
 - [ ] Make sure this code can run under 10ms (cloudflare worker free tier limitation lol)
+- [ ] Deploy converter who support reality-opts
