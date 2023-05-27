@@ -1,0 +1,20 @@
+{
+  "type": "trojan",
+  "tag": "Proxy",
+  "server": "server domain or server ip address",
+  "server_port": 443,
+  "password": "blabla-123",
+  "tls": {
+    "enabled": true,
+    "server_name": "server domain",
+    "insecure": true,
+    "disable_sni": false
+  },
+  "transport": {
+    "type": "ws",
+    "path": "/path",
+    "headers": {
+      "Host": "server domain"
+    }
+  }
+}
