@@ -1,3 +1,6 @@
 trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
 trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
 trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
+trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
+trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
+trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
