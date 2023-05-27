@@ -1,6 +1,3 @@
 trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
-trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
-trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
-trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
-trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
-trojan://tesetpassword@id2.auinspired.my.id:443?path=%2Ftrojan&security=tls&host=id2.auinspired.my.id&type=ws&sni=id2.auinspired.my.id#iyain_hidessh
+vless://48e89500-ec1a-11ed-b536-205c6d5f5d78@162.159.138.6:443/?type=grpc&encryption=none&flow=&serviceName=vlgrpc&security=tls&sni=asia1.oceis.net#ASIA%2BVless-gRPC%282023-05-13%29
+vmess://eyAidiI6ICIyIiwgInBzIjogImZyZWVlIFdTIChDRE4pIFRMUyIsICJhZGQiOiAiYXJub2xkLmFnaW52cG4uY29tIiwgInBvcnQiOiAiNDQzIiwgImlkIjogIjM0YTczYjNmLWIwODEtNGI4MS1hY2RhLTM2M2I2YzYwYjRhMiIsICJhaWQiOiAiMCIsICJuZXQiOiAid3MiLCAicGF0aCI6ICIvdm1lc3MiLCAidHlwZSI6ICJub25lIiwgImhvc3QiOiAiYXJub2xkLmFnaW52cG4uY29tIiwgInRscyI6ICJ0bHMiIH0K
