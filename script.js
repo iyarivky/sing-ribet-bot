@@ -17,10 +17,34 @@ async function main() {
   console.log(config);
   for (let i = 0; i < config.proxies.length; i++) {
     const proxy = config.proxies[i];
-    console.log(proxy.name);
-    console.log(proxy.type);
-    console.log(proxy.server);
-    console.log(proxy.port);
+    console.log('Name:',proxy.name);
+    console.log('Type:',proxy.type);
+    console.log('Server:',proxy.server);
+    console.log('Port:',proxy.port);
+    console.log('Network:',proxy.network);
+    if (proxy.type === 'vmess') {
+      //uuid, alterId, cipher, tls, servername
+      console.log('UUID:',proxy.uuid)
+      console.log('alterId:',proxy.alterId)
+      console.log('Security:',proxy.cipher)
+      console.log('TLS:',proxy.tls)
+      console.log('SNI:',proxy.servername)
+    } else if (proxy.type === 'vless') {
+      //uuid, tls, servername
+      console.log('UUID:',proxy.uuid)
+      console.log('TLS:',proxy.tls)
+      console.log('SNI:',proxy.servername)
+    } else if (proxy.type === 'trojan') {
+      // password, sni 
+      console.log('Password:',proxy.password)
+      console.log('SNI:',proxy.sni)
+    }
+    if (proxy.network === 'ws') {
+      console.log('Path:',proxy['ws-opts'].path);
+      console.log('Host:',proxy['ws-opts'].headers.Host);
+    } else if (proxy.network === 'grpc') {
+      console.log('grpc service name:',proxy['grpc-opts']['grpc-service-name']);
+    }
     console.log('===')
   }
 }
