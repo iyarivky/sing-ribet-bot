@@ -3,6 +3,9 @@
 
 this bot use malikshi`s config (https://github.com/malikshi/sing-box-examples)
 
+### How-To
+coming-soon
+
 ### To-Do
 - [ ] Support send v2ray url via direct and url (like pastebin, raw github, etc)
 - [ ] Implement ternary operator
