@@ -20,13 +20,13 @@
     "servers": [
       {
         "tag": "Internet-dns",
-        "address": "1.0.0.1",
+        "address": "8.8.8.8",
         "strategy": "ipv4_only",
         "detour": "Internet"
       },
       {
         "tag": "Best Latency-dns",
-        "address": "1.1.1.1",
+        "address": "8.8.8.8",
         "strategy": "ipv4_only",
         "detour": "Best Latency"
       },
