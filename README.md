@@ -12,3 +12,6 @@ this bot use malikshi`s config (https://github.com/malikshi/sing-box-examples)
 #### Future
 - [ ] Add Reality support
 - [ ] Deploy subconverter who support reality-opts (https://github.com/iyarivky/subconverter)
+
+PM me if you wanna ask something or just say hi to me
+[@iya_rivvikyn](https://t.me/iya_rivvikyn)
