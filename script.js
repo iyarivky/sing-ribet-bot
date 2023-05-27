@@ -28,14 +28,16 @@ async function main() {
     console.log('Server:',server);
     console.log('Port:',port);
     console.log('Network:',network);
-    console.log('Koneksi Tidak Aman:',skipCertVerify);
+    console.log('Koneksi Aman:',skipCertVerify);
+    
+    let uuid,alterId,security,tls,sni,password,path,host,grpcServiceName
     if (type === 'vmess') {
       //uuid, alterId, cipher, tls, servername
-      let uuid = proxy.uuid
-      let alterId = proxy.alterId
-      let security = proxy.cipher
-      let tls = proxy.tls
-      let sni = proxy.servername
+      uuid = proxy.uuid
+      alterId = proxy.alterId
+      security = proxy.cipher
+      tls = proxy.tls
+      sni = proxy.servername
       console.log('UUID:',uuid)
       console.log('alterId:',alterId)
       console.log('Security:',security)
@@ -43,31 +45,108 @@ async function main() {
       console.log('SNI:',sni)
     } else if (proxy.type === 'vless') {
       //uuid, tls, servername, cipher
-      let uuid = proxy.uuid
-      let security = proxy.cipher
-      let tls = proxy.tls
-      let sni = proxy.servername
+      uuid = proxy.uuid
+      security = proxy.cipher
+      tls = proxy.tls
+      sni = proxy.servername
       console.log('UUID:',uuid)
       console.log('Security:',security)
       console.log('TLS:',tls)
       console.log('SNI:',sni)
     } else if (proxy.type === 'trojan') {
       // password, sni
-      let password = proxy.password
-      let sni = proxy.sni 
+      password = proxy.password
+      sni = proxy.sni 
       console.log('Password:',password)
       console.log('SNI:',sni)
     }
     if (proxy.network === 'ws') {
-      let path = proxy['ws-opts'].path
-      let host = proxy['ws-opts'].headers.Host
+      path = proxy['ws-opts'].path
+      host = proxy['ws-opts'].headers.Host
       console.log('Path:',path);
       console.log('Host:',host);
     } else if (proxy.network === 'grpc') {
-      let grpcServiceName = proxy['grpc-opts']['grpc-service-name']
+      grpcServiceName = proxy['grpc-opts']['grpc-service-name']
       console.log('grpc service name:',grpcServiceName);
     }
-    console.log('===')
+    console.log('===');
+    const configUrls = {
+      trojan: {
+        ws: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/trojan-ws.json',
+        grpc: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/trojan-grpc.json',
+        gfw: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/trojan-gfw.json',
+      },
+      vmess: {
+        ws: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/vmess-ws.json',
+        grpc: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/vmess-grpc.json',
+      },
+      vless: {
+        ws: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/vless-ws.json',
+        grpc: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/vless-grpc.json',
+      },
+    };
+    let configSing;
+    if (type in configUrls) {
+      const url =
+        network in configUrls[type]
+          ? configUrls[type][network]
+          : type === 'trojan'
+          ? configUrls[type].gfw
+          : undefined;
+      if (url) {
+        const configSingResponse = await fetch(url);
+        configSing = await configSingResponse.json();
+      }
+    };
+    console.log(configSing);
+    if (type === 'vmess' || type === 'vless') {
+      configSing.type = type;
+      configSing.server = server;
+      configSing.server_port = parseInt(port, 10);
+      configSing.uuid = uuid;
+      configSing.security = security;
+      if (type === 'vmess') {
+        configSing.alter_id = parseInt(alterId, 10);
+      }
+    
+      if (network === 'ws') {
+        configSing.transport.path = path;
+        configSing.transport.headers.Host = host;
+      }
+    
+      if (network === 'grpc') {
+        configSing.transport.service_name = grpcServiceName;
+      }
+    
+      if (tls) {
+        configSing.tls.enabled = tls;
+        configSing.tls.server_name = sni;
+        configSing.tls.insecure = skipCertVerify;
+      } else {
+        delete configSing.tls;
+      }
+    }
+    
+    if (type === 'trojan') {
+      configSing.type = type;
+      configSing.server = server;
+      configSing.server_port = parseInt(port, 10);
+      configSing.password = password;
+      configSing.tls.server_name = sni;
+      configSing.tls.insecure = skipCertVerify;
+    
+      if (network === 'ws') {
+        configSing.transport.path = path;
+        configSing.transport.headers.Host = host;
+      }
+      if (network === 'grpc') {
+        configSing.transport.service_name = grpcServiceName;
+      }
+    }
+
+    let formatted_json = JSON.stringify(configSing, null, 2);
+    console.log(formatted_json)
+    console.log('===');
   }
 }
 
