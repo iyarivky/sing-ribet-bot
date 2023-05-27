@@ -1,0 +1,22 @@
+{
+  "type": "vmess",
+  "tag": "Proxy",
+  "server": "server domain or server ip address",
+  "server_port": 443,
+  "uuid": "blabla-123",
+  "alter_id": 0,
+  "security": "auto",
+  "tls": {
+    "enabled": true,
+    "server_name": "server domain",
+    "insecure": true,
+    "disable_sni": false
+  },
+  "transport": {
+    "type": "ws",
+    "path": "/path",
+    "headers": {
+      "Host": "server domain"
+    }
+  }
+}
