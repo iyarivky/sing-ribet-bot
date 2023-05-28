@@ -23,6 +23,8 @@ async function main() {
     let port = proxy.port
     let network = proxy.network
     let skipCertVerify = proxy['skip-cert-verify']
+    
+    // debug purpose
     console.log('Name:',name);
     console.log('Type:',type);
     console.log('Server:',server);
@@ -38,35 +40,47 @@ async function main() {
       security = proxy.cipher
       tls = proxy.tls
       sni = proxy.servername
+
+      // debug purpose
       console.log('UUID:',uuid)
       console.log('alterId:',alterId)
       console.log('Security:',security)
       console.log('TLS:',tls)
       console.log('SNI:',sni)
+
     } else if (proxy.type === 'vless') {
       //uuid, tls, servername, cipher
       uuid = proxy.uuid
-      security = proxy.cipher
+      //security = proxy.cipher
       tls = proxy.tls
       sni = proxy.servername
+
+      // debug purpose
       console.log('UUID:',uuid)
-      console.log('Security:',security)
+      //console.log('Security:',security)
       console.log('TLS:',tls)
       console.log('SNI:',sni)
+
     } else if (proxy.type === 'trojan') {
       // password, sni
       password = proxy.password
       sni = proxy.sni 
+
+      // debug purpose
       console.log('Password:',password)
       console.log('SNI:',sni)
     }
     if (proxy.network === 'ws') {
       path = proxy['ws-opts'].path
       host = proxy['ws-opts'].headers.Host
+
+      // debug purpose
       console.log('Path:',path);
       console.log('Host:',host);
     } else if (proxy.network === 'grpc') {
       grpcServiceName = proxy['grpc-opts']['grpc-service-name']
+
+      // debug purpose
       console.log('grpc service name:',grpcServiceName);
     }
     console.log('===');
@@ -78,7 +92,7 @@ async function main() {
       },
       vmess: {
         ws: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/vmess-ws.json',
-        grpc: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/vmess-grpc.json',
+        grpc: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/vmess-grpc.json',
       },
       vless: {
         ws: 'https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/vless-ws.json',
@@ -101,12 +115,13 @@ async function main() {
     console.log(configSing);
     if (type === 'vmess' || type === 'vless') {
       configSing.type = type;
+      configSing.tag = name;
       configSing.server = server;
       configSing.server_port = parseInt(port, 10);
       configSing.uuid = uuid;
-      configSing.security = security;
       if (type === 'vmess') {
         configSing.alter_id = parseInt(alterId, 10);
+        configSing.security = security;
       }
     
       if (network === 'ws') {
@@ -129,6 +144,7 @@ async function main() {
     
     if (type === 'trojan') {
       configSing.type = type;
+      configSing.tag = name;
       configSing.server = server;
       configSing.server_port = parseInt(port, 10);
       configSing.password = password;
