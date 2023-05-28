@@ -15,6 +15,7 @@ async function main() {
   console.log(text);
   const config = yaml.load(text);
   console.log(config);
+  let result = '';
   for (let i = 0; i < config.proxies.length; i++) {
     const proxy = config.proxies[i];
     let name = proxy.name
@@ -161,9 +162,24 @@ async function main() {
     }
 
     let formatted_json = JSON.stringify(configSing, null, 2);
+    result += formatted_json
+    if (i < config.proxies.length) {
+      result += ',\n';
+    }
     console.log(formatted_json)
     console.log('===');
   }
+  console.log(result)
 }
 
 main();
+/*
+let result = '';
+for (let i = 1; i <= 10; i++) {
+    result += `Hello ${i}`;
+    if (i < 10) {
+        result += ',\n';
+    }
+}
+console.log(result);
+*/
