@@ -7,7 +7,7 @@ async function fetchData(url) {
 
 async function main() {
   const inputUrl = "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/testakun.txt";
-  //const inputUrl = ''
+  //const inputUrl = 'https://pastebin.com/raw/hPsEFHmG'
   const inputData = inputUrl.startsWith("http") ? await fetchData(inputUrl): inputUrl;
   const urlData = encodeURIComponent(inputData.replace(/\n/g, "|"));
   const targetUrl = `https://sub.bonds.id/sub?target=clash&url=${urlData}&insert=false&config=base%2Fdatabase%2Fconfig%2Fstandard%2Fstandard_redir.ini&emoji=false&list=true&udp=true&tfo=false&expand=false&scv=true&fdn=false&sort=false&new_name=true`;
