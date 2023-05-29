@@ -10,6 +10,7 @@ coming-soon
 - [ ] Support send v2ray url via direct and url (like pastebin, raw github, etc)
 - [ ] Implement ternary operator
 - [ ] Receive config as file
+- [ ] Re:write code for Cloudflare Workers
 - [ ] Deploy code to Cloudflare Workers
 - [ ] Make sure this code can run under 10ms (cloudflare worker free tier limitation lol)
 #### Future
