@@ -9,16 +9,14 @@ async function main() {
   const inputUrl =
     "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/testakun.txt";
   //const inputUrl = ''
-  const inputData = inputUrl.startsWith("http")
-    ? await fetchData(inputUrl)
-    : inputUrl;
+  const inputData = inputUrl.startsWith("http") ? await fetchData(inputUrl): inputUrl;
   const urlData = encodeURIComponent(inputData.replace(/\n/g, "|"));
   const targetUrl = `https://sub.bonds.id/sub?target=clash&url=${urlData}&insert=false&config=base%2Fdatabase%2Fconfig%2Fstandard%2Fstandard_redir.ini&emoji=false&list=true&udp=true&tfo=false&expand=false&scv=true&fdn=false&sort=false&new_name=true`;
   const text = await fetchData(targetUrl);
   console.log(text);
   const config = yaml.load(text);
   console.log(config);
-  let result = "";
+  let result = [];
   let nameProxy = [];
   for (let i = 0; i < config.proxies.length; i++) {
     const proxy = config.proxies[i];
@@ -39,20 +37,16 @@ async function main() {
       host,
       grpcServiceName;
     if (type === "vmess") {
-      //uuid, alterId, cipher, tls, servername
       uuid = proxy.uuid;
       alterId = proxy.alterId;
       security = proxy.cipher;
       tls = proxy.tls;
       sni = proxy.servername;
     } else if (proxy.type === "vless") {
-      //uuid, tls, servername, cipher
       uuid = proxy.uuid;
-      //security = proxy.cipher
       tls = proxy.tls;
       sni = proxy.servername;
     } else if (proxy.type === "trojan") {
-      // password, sni
       password = proxy.password;
       sni = proxy.sni;
     }
@@ -62,7 +56,7 @@ async function main() {
     } else if (proxy.network === "grpc") {
       grpcServiceName = proxy["grpc-opts"]["grpc-service-name"];
     }
-    console.log("===");
+    //console.log("===");
     const configUrls = {
       trojan: {
         ws:
@@ -145,17 +139,15 @@ async function main() {
       }
     }
 
-    let formattedJSON = JSON.stringify(configSing, null, 2);
-    result += formattedJSON;
+    //let formattedJSON = JSON.stringify(configSing, null, 2);
+    //result += formattedJSON;
+    result.push(configSing);
     nameProxy.push(name);
-    //nameProxy += name;
+    /*
     if (i + 1 < config.proxies.length) {
       result += ",\n";
-      //nameProxy += ",";
     }
-
-    //console.log(formatted_json)
-    //console.log('===');
+    */
   }
   console.log(result);
 
@@ -164,6 +156,13 @@ async function main() {
     "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config.json";
   const baseConfigResponse = await fetch(baseConfigUrl);
   const baseConfig = await baseConfigResponse.json();
+  baseConfig.outbounds.forEach(outbound => {
+    if (["Internet", "Best Latency", "Lock Region ID"].includes(outbound.tag)) {
+      outbound.outbounds.push(...nameProxy);
+    }
+  });
+  let addProxy = baseConfig.outbounds.findIndex(outbound => outbound.tag === 'Lock Region ID');
+  baseConfig.outbounds.splice(addProxy + 1, 0, ...result);
   console.log(baseConfig);
   let formattedBaseConfig = JSON.stringify(baseConfig, null, 2);
   console.log(formattedBaseConfig);
