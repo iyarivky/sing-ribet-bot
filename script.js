@@ -39,11 +39,11 @@ async function main() {
       security = proxy.cipher;
       tls = proxy.tls;
       sni = proxy.servername;
-    } else if (proxy.type === "vless") {
+    } else if (type === "vless") {
       uuid = proxy.uuid;
       tls = proxy.tls;
       sni = proxy.servername;
-    } else if (proxy.type === "trojan") {
+    } else if (type === "trojan") {
       password = proxy.password;
       sni = proxy.sni;
     }
