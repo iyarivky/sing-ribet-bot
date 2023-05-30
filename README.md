@@ -9,10 +9,11 @@ coming-soon
 ### To-Do
 - [x] Support send v2ray url via direct and url (like pastebin, raw github, etc)
 - [x] Implement ternary operator
-- [x] Receive config as file.txt and naming file with date-time
-- [ ] Re:write code for Cloudflare Workers
-- [ ] Deploy code to Cloudflare Workers
-- [ ] Make sure this code can run under 10ms (cloudflare worker free tier limitation lol)
+- [x] Receive config as file.json and naming file with date-time
+- [x] Re:write code for Cloudflare Workers
+- [x] Deploy code to Cloudflare Workers
+- [ ] Make sure this code can run under 10ms (cloudflare worker free tier limitation lol) => Update : i'm ruined it, 20ms bruh
+
 #### Future
 - [ ] Add Reality support
 - [ ] Deploy subconverter who support reality-opts (https://github.com/iyarivky/subconverter)
