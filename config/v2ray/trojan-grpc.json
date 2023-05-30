@@ -13,5 +13,10 @@
   "transport": {
     "type": "grpc",
     "service_name": "wysteria-marigold"
+  },
+  "multiplex": {
+    "enabled": false,
+    "protocol": "smux",
+    "max_streams": 32
   }
 }

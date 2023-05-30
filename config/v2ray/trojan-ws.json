@@ -16,5 +16,10 @@
     "headers": {
       "Host": "server domain"
     }
+  },
+  "multiplex": {
+    "enabled": false,
+    "protocol": "smux",
+    "max_streams": 32
   }
 }

@@ -9,5 +9,10 @@
     "server_name": "server domain",
     "insecure": true,
     "disable_sni": false
+  },
+  "multiplex": {
+    "enabled": false,
+    "protocol": "smux",
+    "max_streams": 32
   }
 }
