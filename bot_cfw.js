@@ -167,7 +167,7 @@ async function handleRequest(request) {
       let date = new Date();
       let dateString = date.toLocaleDateString('id-ID').replace(/\//g, '-');
       let timeString = date.toLocaleTimeString('id-ID');
-      let fileName = `sfa-${dateString}-${timeString}.txt`;
+      let fileName = `sfa-${dateString}-${timeString}.json`;
 
       var formData = new FormData();
       formData.append('chat_id', chatId);
