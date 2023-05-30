@@ -9,7 +9,7 @@ coming-soon
 ### To-Do
 - [x] Support send v2ray url via direct and url (like pastebin, raw github, etc)
 - [x] Implement ternary operator
-- [ ] Receive config as file.txt and naming file with date-time
+- [x] Receive config as file.txt and naming file with date-time
 - [ ] Re:write code for Cloudflare Workers
 - [ ] Deploy code to Cloudflare Workers
 - [ ] Make sure this code can run under 10ms (cloudflare worker free tier limitation lol)
