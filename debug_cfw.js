@@ -4,25 +4,34 @@ addEventListener("fetch", event => {
 })
 
 async function fetchData(url) {
-  const response = await fetch(url);
+  let headers = new Headers({
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "User-Agent": "Chrome/100"});
+  const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,{method: 'GET',headers: headers})
   return response.text();
 }
 
 async function handleRequest(request) {
   if (request.method === "POST") {
-    const payload = await request.json()
+    const payload = await request.json() 
+    // Getting the POST request JSON payload
     if ('message' in payload) {
-      const chatId = payload.message.chat.id; //chat_Id
-      let inputUrl = payload.message.text; //input message
-      const apiKey = API_KEY;
-      try {
-        const inputData = inputUrl.startsWith("http") ? await fetchData(`https://api.allorigins.win/raw?url=${inputUrl}`) : inputUrl;
+      try{
+        const chatId = payload.message.chat.id
+        const inputUrl = payload.message.text
+        const inputData = inputUrl.startsWith("http") ? await fetchData(inputUrl) : inputUrl;
         const urlData = encodeURIComponent(inputData.replace(/\n/g, "|"));
         const targetUrl = `https://sub.bonds.id/sub?target=clash&url=${urlData}&insert=false&config=base%2Fdatabase%2Fconfig%2Fstandard%2Fstandard_redir.ini&emoji=false&list=true&udp=true&tfo=false&expand=false&scv=true&fdn=false&sort=false&new_name=true`;
         const text = await fetchData(targetUrl);
         const config = yaml.load(text);
-        let result = [];
+        let hasil = [];
         let nameProxy = [];
+        /*
+        console.log(text)
+        console.log(inputUrl)
+        console.log(inputData)
+        */
         for (let i = 0; i < config.proxies.length; i++) {
           const proxy = config.proxies[i];
           let name = proxy.name;
@@ -31,7 +40,7 @@ async function handleRequest(request) {
           let port = proxy.port;
           let network = proxy.network;
           let skipCertVerify = proxy["skip-cert-verify"];
-
+  
           let uuid,
             alterId,
             security,
@@ -61,7 +70,6 @@ async function handleRequest(request) {
           } else if (proxy.network === "grpc") {
             grpcServiceName = proxy["grpc-opts"]["grpc-service-name"];
           }
-          //console.log("===");
           const configUrls = {
             trojan: {
               ws: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/v2ray/trojan-ws.json",
@@ -100,16 +108,16 @@ async function handleRequest(request) {
               configSing.alter_id = parseInt(alterId, 10);
               configSing.security = security;
             }
-
+  
             if (network === "ws") {
               configSing.transport.path = path;
               configSing.transport.headers.Host = host;
             }
-
+  
             if (network === "grpc") {
               configSing.transport.service_name = grpcServiceName;
             }
-
+  
             if (tls) {
               configSing.tls.enabled = tls;
               configSing.tls.server_name = sni;
@@ -118,7 +126,7 @@ async function handleRequest(request) {
               delete configSing.tls;
             }
           }
-
+  
           if (type === "trojan") {
             configSing.type = type;
             configSing.tag = name;
@@ -127,7 +135,7 @@ async function handleRequest(request) {
             configSing.password = password;
             configSing.tls.server_name = sni;
             configSing.tls.insecure = skipCertVerify;
-
+  
             if (network === "ws") {
               configSing.transport.path = path;
               configSing.transport.headers.Host = host;
@@ -136,42 +144,41 @@ async function handleRequest(request) {
               configSing.transport.service_name = grpcServiceName;
             }
           }
-          result.push(configSing);
+          hasil.push(configSing);
           nameProxy.push(name);
         }
+  
         const baseConfigUrl = "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config.json";
         const baseConfigResponse = await fetch(baseConfigUrl);
         const baseConfig = await baseConfigResponse.json();
-
+  
         baseConfig.outbounds.forEach(outbound => {
           if (["Internet", "Best Latency", "Lock Region ID"].includes(outbound.tag)) {
             outbound.outbounds.push(...nameProxy);
           }
         });
-
+  
         let addProxy = baseConfig.outbounds.findIndex(outbound => outbound.tag === 'Lock Region ID');
-        baseConfig.outbounds.splice(addProxy + 1, 0, ...result);
-
+        baseConfig.outbounds.splice(addProxy + 1, 0, ...hasil);
+  
         let formattedBaseConfig = JSON.stringify(baseConfig, null, 2);
-        //console.log(formattedBaseConfig);
-
+  
         var blob = new Blob([formattedBaseConfig], {type: 'plain/text'});
         let date = new Date();
         let dateString = date.toLocaleDateString('id-ID').replace(/\//g, '-');
         let timeString = date.toLocaleTimeString('id-ID');
-        let fileName = `sfa-${dateString}-${timeString}.txt`;
-        
+        let fileName = `sfa-${dateString}-${timeString}.json`;
+  
         var formData = new FormData();
         formData.append('chat_id', chatId);
         formData.append('document', blob, fileName);
-        
-        var request = new XMLHttpRequest();
-        request.open('POST', `https://api.telegram.org/bot${apiKey}/sendDocument`);
-        request.send(formData);
-      } catch (error) {
+        const urel = `https://api.telegram.org/bot${API_KEY}/sendDocument`
+        const daita = await fetch(urel, {method: 'POST',body: formData}).then(resp => resp.json());
+
+      } catch(error){
         console.log('Error: ' + error.message);
       }
     }
   }
-  return new Response("OK")
+  return new Response("OK") // Doesn't really matter
 }
