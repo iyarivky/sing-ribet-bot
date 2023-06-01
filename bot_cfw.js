@@ -8,6 +8,15 @@ async function fetchData(url) {
     "Accept": "application/json",
     "Content-Type": "application/json",
     "User-Agent": "Chrome/100"});
+  const response = await fetch(url,{method: 'GET',headers: headers})
+  return response.text();
+}
+
+async function fetchDataAllOrigin(url) {
+  let headers = new Headers({
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+    "User-Agent": "Chrome/100"});
   const response = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,{method: 'GET',headers: headers})
   return response.text();
 }
@@ -20,7 +29,7 @@ async function handleRequest(request) {
       try{
         const chatId = payload.message.chat.id
         const inputUrl = payload.message.text
-        const inputData = inputUrl.startsWith("http") ? await fetchData(inputUrl) : inputUrl;
+        const inputData = inputUrl.startsWith("http") ? await fetchDataAllOrigin(inputUrl) : inputUrl;
         const urlData = encodeURIComponent(inputData.replace(/\n/g, "|"));
         const targetUrl = `https://sub.bonds.id/sub?target=clash&url=${urlData}&insert=false&config=base%2Fdatabase%2Fconfig%2Fstandard%2Fstandard_redir.ini&emoji=false&list=true&udp=true&tfo=false&expand=false&scv=true&fdn=false&sort=false&new_name=true`;
         const text = await fetchData(targetUrl);
