@@ -38,8 +38,8 @@ async function handleRequest(request) {
       const chatId = payload.message.chat.id
       const inputUrl = payload.message.text
       try{
-        const inputData = inputUrl.startsWith("http") ? await fetchDataAllOrigin(inputUrl) : inputUrl;
-        inputData = inputData.replace(/\r?\n/g, ",");
+        let inputData = inputUrl.startsWith("http") ? await fetchDataAllOrigin(inputUrl) : inputUrl;
+        inputData = inputData.replace(/(\r?\n){1,2}/g, ",");
         inputData = inputData.replace(/,$/g, "");
         let parseConfig = await fetchFoolAPI(inputData);
         
@@ -51,7 +51,22 @@ async function handleRequest(request) {
             max_streams: 32
           };
         });
-        let nameProxy = outboundsConfig.map((item) => item.tag);
+        let tagCount = {};
+        let nameProxy = outboundsConfig.map((item) => {
+          let tag = item.tag;
+          if (tag in tagCount) {
+            tagCount[tag]++;
+            return tag + ' ' + tagCount[tag];
+          } else {
+            tagCount[tag] = 1;
+            return tag;
+          }
+        });
+
+        outboundsConfig.forEach((item, index) => {
+          item.tag = nameProxy[index];
+        });
+        //console.log(outboundsConfig);
 
         const urls = {
           sfa:
@@ -98,12 +113,12 @@ async function handleRequest(request) {
   
         for (const name of configNames) {
           let formattedConfig = JSON.stringify(configs[name], null, 2);
-          console.log(formattedConfig);
+          //console.log(formattedConfig);
           var blob = new Blob([formattedConfig], {type: 'plain/text'});
           let date = new Date();
           let dateString = date.toLocaleDateString('id-ID').replace(/\//g, '-');
           let timeString = date.toLocaleTimeString('id-ID');
-          let fileName = `${configs[name]}-${dateString}-${timeString}.json`;
+          let fileName = `${name}-${dateString}-${timeString}.json`;
 
           var formData = new FormData();
           formData.append('chat_id', chatId);
@@ -112,11 +127,16 @@ async function handleRequest(request) {
           const daita = await fetch(urel, {method: 'POST',body: formData}).then(resp => resp.json());
         }
       } catch(error){
-        console.log('Error: ' + error.message);
-        let output = "Send the v2ray config link here. If you are sure the config link is correct but you haven't received the config json, pm me @iya_rivvikyn"
+        let output = "Send the v2ray config link here. If you are sure the config link is correct but you haven't received the config json, pm me [@iya_rivvikyn](https://t.me/iya_rivvikyn)"
         let parse = "markdown"
         const uerel = `https://api.telegram.org/bot${API_KEY}/sendMessage?chat_id=${chatId}&text=${output}&parse_mode=${parse}`;
-        const daita = await fetch(uerel).then(resp => resp.json())
+        const daital = await fetch(uerel).then(resp => resp.json());
+        let photo = "https://user-images.githubusercontent.com/101973571/243159445-957eba3e-bc2f-4d8d-ac36-b45bc56680e7.png"
+        let caption = "Example"
+        const uerela = `https://api.telegram.org/bot${API_KEY}/sendPhoto?chat_id=${chatId}&photo=${photo}&caption=${caption}`;
+        const daitala = await fetch(uerela).then(resp => resp.json());
+        //console.log(daitala)
+        console.log('Error: ' + error.message);
       }
     }
   }
