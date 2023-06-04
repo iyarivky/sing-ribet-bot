@@ -7,13 +7,8 @@
   "experimental": {
     "clash_api": {
       "external_controller": "0.0.0.0:9090",
-      "external_ui": "yacd",
-      "external_ui_download_url": "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.zip",
-      "external_ui_download_detour": "Internet",
-      "secret": "",
-      "default_mode": "rule",
-      "store_selected": true,
-      "cache_file": "clash.db"
+      "external_ui": "./dashboard",
+      "store_selected": true
     }
   },
   "dns": {
@@ -132,24 +127,15 @@
   },
   "inbounds": [
     {
-      "type": "tun",
-      "tag": "tun-in",
-      "interface_name": "tun0",
-      "inet4_address": "172.19.0.1/30",
-      "inet6_address": "fdfe:dcba:9876::1/126",
-      "mtu": 1358,
-      "auto_route": true,
-      "strict_route": true,
-      "stack": "gvisor",
-      "endpoint_independent_nat": true,
-      "sniff": true
-    },
-    {
-      "listen": "0.0.0.0",
-      "listen_port": 2080,
+      "type": "tproxy",
+      "tag": "tproxy-in",
+      "listen": "::",
+      "listen_port": 9898,
       "sniff": true,
-      "tag": "mixed-in",
-      "type": "mixed"
+      "sniff_override_destination": true,
+      "sniff_timeout": "300ms",
+      "domain_strategy": "prefer_ipv4",
+      "udp_timeout": 300
     }
   ],
   "outbounds": [
@@ -235,7 +221,6 @@
   ],
   "route": {
     "auto_detect_interface": true,
-    "override_android_vpn": true,
     "final": "Internet",
     "geoip": {
       "download_url": "https://github.com/malikshi/sing-box-geo/releases/latest/download/geoip.db",
