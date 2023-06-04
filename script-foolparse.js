@@ -26,7 +26,6 @@ async function fetchUrlAllOrigin(url) {
   return await response.text();
 }
 
-
 async function getData() {
   let akun = "https://pastebin.com/raw/hPsEFHmG"; // your mom account
   let inputData = akun.startsWith("http")
@@ -35,50 +34,65 @@ async function getData() {
   inputData = inputData.replace(/\r?\n/g, ",");
   inputData = inputData.replace(/,$/g, "");
   let parseConfig = await fetchFoolAPI(inputData);
-  const outboundsConfig = parseConfig.map(item => item.Outbound);
-  outboundsConfig.forEach(item => {
+  const outboundsConfig = parseConfig.map((item) => item.Outbound);
+  outboundsConfig.forEach((item) => {
     item.multiplex = {
       enabled: false,
-      protocol: 'smux',
+      protocol: "smux",
       max_streams: 32
     };
-});
+  });
   console.log(outboundsConfig);
-  let nameProxy = outboundsConfig.map(item => item.tag);
+  let nameProxy = outboundsConfig.map((item) => item.tag);
   console.log(nameProxy);
-  
+
   const urls = {
-    Base: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config.json",
-    Simple: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-simple.json",
-    Bfm: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-bfm.json",
-    bfmSimple: "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-bfm-simple.json"
+    base:
+      "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config.json",
+    simple:
+      "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-simple.json",
+    bfm:
+      "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-bfm.json",
+    bfmSimple:
+      "https://raw.githubusercontent.com/iyarivky/sing-ribet/main/config/config-bfm-simple.json"
   };
   const configs = {};
   for (const [key, url] of Object.entries(urls)) {
     configs[key] = await fetchConfig(url);
+  }
+  console.log(configs.Base);
+
+  const configNames = ["base", "simple", "bfm", "bfmSimple"];
+  const tags = {
+    base: ["Internet", "Best Latency", "Lock Region ID"],
+    simple: ["Internet", "Best Latency"],
+    bfm: ["Internet", "Best Latency", "Lock Region ID"],
+    bfmSimple: ["Internet", "Best Latency"]
   };
-  console.log(configs.Base)
-  
-  configs.Base.outbounds.forEach(outbound => {
-    if (["Internet", "Best Latency", "Lock Region ID"].includes(outbound.tag)) {
-      outbound.outbounds.push(...nameProxy);
-    }
-  });
-  let addProxy = configs.Base.outbounds.findIndex(outbound => outbound.tag === 'Lock Region ID');
-  configs.Base.outbounds.splice(addProxy + 1, 0, ...outboundsConfig);
 
+  const findIndexTag = {
+    base: "Lock Region ID",
+    simple: "Best Latency",
+    bfm: "Lock Region ID",
+    bfmSimple: "Best Latency"
+  };
 
-  configs.Simple.outbounds.forEach(outbound => {
-    if (["Internet", "Best Latency"].includes(outbound.tag)) {
-      outbound.outbounds.push(...nameProxy);
-    }
-  });
-  let addProxySimple = configs.Simple.outbounds.findIndex(outbound => outbound.tag === 'Best Latency');
-  configs.Simple.outbounds.splice(addProxySimple + 1, 0, ...outboundsConfig);
+  for (const name of configNames) {
+    const config = configs[name];
+    config.outbounds.forEach((outbound) => {
+      if (tags[name].includes(outbound.tag)) {
+        outbound.outbounds.push(...nameProxy);
+      }
+    });
+    let addProxy = config.outbounds.findIndex(
+      (outbound) => outbound.tag === findIndexTag[name]
+    );
+    config.outbounds.splice(addProxy + 1, 0, ...outboundsConfig);
+  }
 
-  let formattedBaseConfig = JSON.stringify(configs.Base, null, 2);
-  let formattedSimpleConfig = JSON.stringify(configs.Simple, null, 2);
-  console.log(formattedBaseConfig)
-  console.log(formattedSimpleConfig)
+  for (const name of configNames) {
+    let formattedConfig = JSON.stringify(configs[name], null, 2);
+    console.log(formattedConfig);
+  }
 }
 getData();
