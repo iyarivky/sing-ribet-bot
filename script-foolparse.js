@@ -34,7 +34,7 @@ async function getData() {
   inputData = inputData.replace(/\r?\n/g, ",");
   inputData = inputData.replace(/,$/g, "");
   let parseConfig = await fetchFoolAPI(inputData);
-  const outboundsConfig = parseConfig.map((item) => item.Outbound);
+  let outboundsConfig = parseConfig.map((item) => item.Outbound);
   outboundsConfig.forEach((item) => {
     item.multiplex = {
       enabled: false,
@@ -42,9 +42,23 @@ async function getData() {
       max_streams: 32
     };
   });
-  console.log(outboundsConfig);
-  let nameProxy = outboundsConfig.map((item) => item.tag);
+  //let nameProxy = outboundsConfig.map((item) => item.tag);
+  let tagCount = {};
+  let nameProxy = outboundsConfig.map((item) => {
+    let tag = item.tag;
+    if (tag in tagCount) {
+      tagCount[tag]++;
+      return tag + ' ' + tagCount[tag];
+    } else {
+      tagCount[tag] = 1;
+      return tag;
+    }
+  });
   console.log(nameProxy);
+  outboundsConfig.forEach((item, index) => {
+    item.tag = nameProxy[index];
+  });
+  console.log(outboundsConfig);
 
   const urls = {
     base:
@@ -60,7 +74,7 @@ async function getData() {
   for (const [key, url] of Object.entries(urls)) {
     configs[key] = await fetchConfig(url);
   }
-  console.log(configs.Base);
+  //console.log(configs.Base);
 
   const configNames = ["base", "simple", "bfm", "bfmSimple"];
   const tags = {
@@ -94,5 +108,13 @@ async function getData() {
     let formattedConfig = JSON.stringify(configs[name], null, 2);
     console.log(formattedConfig);
   }
+  
+async function measureCpuTime() {
+  const startTime = performance.now();
+  await getData();
+  const endTime = performance.now();
+  const cpuTime = endTime - startTime;
+  console.log(`CPU time: ${cpuTime} ms`);
 }
-getData();
+
+measureCpuTime();
