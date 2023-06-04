@@ -3,7 +3,10 @@
 
 this bot use malikshi`s config (https://github.com/malikshi/sing-box-examples)
 
-### How-To
+### How-To use this Bot
+![image](https://github.com/iyarivky/sing-ribet/assets/101973571/957eba3e-bc2f-4d8d-ac36-b45bc56680e7)
+
+### How-To Deploy
 coming-soon
 
 ### To-Do
