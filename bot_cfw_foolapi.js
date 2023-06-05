@@ -38,10 +38,12 @@ async function handleRequest(request) {
       const chatId = payload.message.chat.id
       const inputUrl = payload.message.text
       try{
-        let inputData = inputUrl.startsWith("http") ? await fetchDataAllOrigin(inputUrl) : inputUrl;
-        inputData = inputData.replace(/(\r?\n){1,2}/g, ",");
-        inputData = inputData.replace(/,$/g, "");
-        let parseConfig = await fetchFoolAPI(inputData);
+        let inputData = inputUrl.startsWith("http") ? await fetchUrlAllOrigin(inputUrl) : inputUrl;
+        //console.log(inputData)
+        replaceData = inputData.replace(/(\r?\n){1,2}/g, ",");
+        replaceData2 = replaceData.replace(/,$/g, "");
+        let parseConfig = await fetchFoolAPI(replaceData2);
+        //console.log(parseConfig)
         
         const outboundsConfig = parseConfig.map((item) => item.Outbound);
         outboundsConfig.forEach((item) => {
@@ -50,6 +52,7 @@ async function handleRequest(request) {
             protocol: "smux",
             max_streams: 32
           };
+          item.tls.insecure = true;
         });
         let tagCount = {};
         let nameProxy = outboundsConfig.map((item) => {
