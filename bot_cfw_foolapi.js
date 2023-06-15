@@ -33,26 +33,41 @@ async function fetchUrlAllOrigin(url) {
 async function handleRequest(request) {
   if (request.method === "POST") {
     const payload = await request.json() 
+    //console.log(payload)
     // Getting the POST request JSON payload
     if ('message' in payload) {
       const chatId = payload.message.chat.id
       const inputUrl = payload.message.text
       try{
+        // Untuk penanganan server turu
+        /*
+        let pesan = "Server Problem, We'll be back. For more information, follow [@iyalog](https://t.me/iyalog)"
+        let parsu = "markdown"
+        const anjay = `https://api.telegram.org/bot${API_KEY}/sendMessage?chat_id=${chatId}&text=${pesan}&parse_mode=${parsu}`
+        const daital = await fetch(anjay).then(resp => resp.json());
+        */
         let inputData = inputUrl.startsWith("http") ? await fetchUrlAllOrigin(inputUrl) : inputUrl;
-        //console.log(inputData)
+        console.log(inputData)
         replaceData = inputData.replace(/(\r?\n){1,2}/g, ",");
         replaceData2 = replaceData.replace(/,$/g, "");
+        //console.log(replaceData2)
         let parseConfig = await fetchFoolAPI(replaceData2);
-        //console.log(parseConfig)
+        console.log(parseConfig)
         
         const outboundsConfig = parseConfig.map((item) => item.Outbound);
         outboundsConfig.forEach((item) => {
-          item.multiplex = {
-            enabled: false,
-            protocol: "smux",
-            max_streams: 32
-          };
-          item.tls.insecure = true;
+          item.domain_strategy = "ipv4_only";
+          if (item.type !== "shadowsocksr") {
+            item.multiplex = {
+              enabled: false,
+              protocol: "smux",
+              max_streams: 32
+            };
+          }
+          item.domain_strategy = "ipv4_only";
+          if (item.tls){
+            item.tls.insecure = true;
+          }
         });
         let tagCount = {};
         let nameProxy = outboundsConfig.map((item) => {
@@ -127,7 +142,7 @@ async function handleRequest(request) {
           formData.append('chat_id', chatId);
           formData.append('document', blob, fileName);
           const urel = `https://api.telegram.org/bot${API_KEY}/sendDocument`
-          const daita = await fetch(urel, {method: 'POST',body: formData}).then(resp => resp.json());
+          const daita = await fetch(urel, {method: 'POST',body: formData}).then(resp => resp.json()); 
         }
       } catch(error){
         let output = "Send the v2ray config link here. If you are sure the config link is correct but you haven't received the config json, pm me [@iya_rivvikyn](https://t.me/iya_rivvikyn)"
@@ -138,7 +153,7 @@ async function handleRequest(request) {
         let caption = "Example"
         const uerela = `https://api.telegram.org/bot${API_KEY}/sendPhoto?chat_id=${chatId}&photo=${photo}&caption=${caption}`;
         const daitala = await fetch(uerela).then(resp => resp.json());
-        //console.log(daitala)
+        console.log(daitala)
         console.log('Error: ' + error.message);
       }
     }
