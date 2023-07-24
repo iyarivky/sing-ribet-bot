@@ -1,5 +1,5 @@
-# sing-ribet
-[WIP] v2ray/xray url to sing-box json converter bot for SFA (sing-box for Android), Support multi-account, yacd dashboard, and rules
+# sing-ribet-bot
+[WIP] v2ray/xray url to sing-box json converter Telegram bot for SFA (sing-box for Android), Support multi-account, yacd dashboard, and rules
 
 this bot use malikshi`s config (https://github.com/malikshi/sing-box-examples)
 
