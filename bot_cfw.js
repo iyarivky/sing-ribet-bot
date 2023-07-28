@@ -1,3 +1,4 @@
+import { Base64 } from "js-base64"
 addEventListener("fetch", event => {
   event.respondWith(handleRequest(event.request))
 })
@@ -43,7 +44,7 @@ async function v2rayToSing(v2rayAccount) {
 
   function parseVmessUrl(ftpArrayUrl) {
     let ftpParsedUrl = ftpArrayUrl.substring(6)
-    let decodeResult = atob(ftpParsedUrl);
+    let decodeResult = Base64.decode(ftpParsedUrl);
     let parsedJSON = JSON.parse(decodeResult);
     const configResult = {
       tag: parsedJSON.ps || parsedJSON.add,
@@ -211,14 +212,14 @@ async function v2rayToSing(v2rayAccount) {
 
   function parseShadowsocksRUrl(ftpArrayUrl) {
     let ftpParsedUrl = ftpArrayUrl.substring(6)
-    let decodeResult = atob(ftpParsedUrl);
+    let decodeResult = Base64.decode(ftpParsedUrl);
     let [serverSSR, portSSR, protocolSSR, methodSSR, obfsSSR, passwordSSR] = decodeResult.split(':');
     let params = new URLSearchParams(decodeResult.split('?')[1]);
     let obfs_paramSSR = params.get('obfsparam');
     let tagSSR = params.get('remarks');
     let proto_paramSSR = params.get('protoparam');
     const configResult = {
-      tag: atob(tagSSR),
+      tag: Base64.decode(tagSSR),
       type: "shadowsocksr",
       server: serverSSR,
       server_port: ~~portSSR,
