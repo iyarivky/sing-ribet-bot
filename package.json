@@ -1,5 +1,18 @@
 {
+  "name": "sing-ribet-bot",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler publish",
+    "start": "wrangler dev"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20230419.0",
+    "itty-router": "^3.0.12",
+    "wrangler": "^3.0.0"
+  },
   "dependencies": {
+    "js-base64": "^3.7.5",
     "js-yaml": "4.1.0"
   }
 }
