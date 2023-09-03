@@ -27,6 +27,13 @@
         }
       ]
     },
+    "experimental": {
+        "clash_api": {
+          "cache_file": "../cache/clash.db",
+          "external_controller": "0.0.0.0:9090",
+          "external_ui": "../files/yacd"
+        }
+    },
     "inbounds": [
       {
         "listen": "0.0.0.0",
