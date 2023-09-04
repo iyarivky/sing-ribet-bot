@@ -296,11 +296,11 @@ async function handleRequest(request) {
         } else {
           // Untuk penanganan server turu
           /*
-        let pesan = "Server Problem, We'll be back. For more information, follow [@iyalog](https://t.me/iyalog)"
-        let parsu = "markdown"
-        const anjay = `https://api.telegram.org/bot${API_KEY}/sendMessage?chat_id=${chatId}&text=${pesan}&parse_mode=${parsu}`
-        const daital = await fetch(anjay).then(resp => resp.json());
-       */
+          let pesan = "Server Problem, We'll be back. For more information, follow [@iyalog](https://t.me/iyalog)"
+          let parsu = "markdown"
+          const anjay = `https://api.telegram.org/bot${API_KEY}/sendMessage?chat_id=${chatId}&text=${pesan}&parse_mode=${parsu}`
+          const daital = await fetch(anjay).then(resp => resp.json());
+          */
           let inputData = inputUrl.startsWith("http") ? await fetchUrlAllOrigin(inputUrl) : inputUrl;
           //console.log("inputData:",inputData)
           let cleanData = await processData(inputData)
