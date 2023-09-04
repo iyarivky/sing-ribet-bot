@@ -364,7 +364,6 @@ async function handleRequest(request) {
             config.outbounds.splice(addProxy + 1, 0, ...outboundsConfig);
 
             const servers = config.outbounds.map(outbound => outbound.server).filter(server => server);
-            console.log(servers)
             const directDnsRule = config.dns.rules.find(rule => rule.server === "direct-dns");
             if (directDnsRule) {
               directDnsRule.domain_suffix = servers;
