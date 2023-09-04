@@ -35,6 +35,12 @@ async function processData(inputData) {
   return replaceData2;
 };
 
+function ipChecker(str) {
+  const ipv4Regex = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+  const ipv6Regex = /^([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}$|([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4}$|([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,2}$|([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){1,3}$|([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,4}$|([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,5}$|([0-9A-Fa-f]{1,4}:)(:[0-9A-Fa-f]{1,4}){1,6}$|:(:[0-9A-Fa-f]{1,4}){1,7}|fe80:(:[0-9A-Fa-f]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$|([0-9A-Fa-f]{1,4}:){1,4}:[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){1,4}$/;
+  return ipv4Regex.test(str) || ipv6Regex.test(str);
+}
+
 async function v2rayToSing(v2rayAccount) {
   let v2rayArrayUrl = v2rayAccount.split('\n');
   let ftpArrayUrl = v2rayArrayUrl.map(urlString => urlString.replace(/^[^:]+(?=:\/\/)/, 'ftp')); //convert v2ray urls to ftp url since WHATWG URL API is suck when dealing with other protocol
@@ -363,7 +369,7 @@ async function handleRequest(request) {
               (outbound) => outbound.tag === findIndexTag[name]);
             config.outbounds.splice(addProxy + 1, 0, ...outboundsConfig);
 
-            const servers = config.outbounds.map(outbound => outbound.server).filter(server => server);
+            const servers = config.outbounds.map(outbound => outbound.server).filter(server => server).filter(filterserver => !ipChecker(filterserver));
             const directDnsRule = config.dns.rules.find(rule => rule.server === "direct-dns");
             if (directDnsRule) {
               directDnsRule.domain_suffix = servers;
