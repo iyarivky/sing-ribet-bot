@@ -1,31 +1,30 @@
 {
     "dns": {
-      "independent_cache": true,
-      "rules": [],
-      "servers": [
-        {
-          "address": "1.1.1.1:53",
-          "address_resolver": "dns-direct",
-          "strategy": "prefer_ipv4",
-          "tag": "dns-remote"
-        },
-        {
-          "address": "1.1.1.1:53",
-          "address_resolver": "dns-local",
-          "detour": "direct",
-          "strategy": "prefer_ipv4",
-          "tag": "dns-direct"
-        },
-        {
-          "address": "local",
-          "detour": "direct",
-          "tag": "dns-local"
-        },
-        {
-          "address": "rcode://success",
-          "tag": "dns-block"
-        }
-      ]
+        "independent_cache": true,
+        "rules": [      
+          {
+            "domain_suffix": [],
+            "server": "direct-dns",
+            "disable_cache": false
+          }],
+        "servers": [
+          {
+            "address": "1.1.1.1:53",
+            "address_resolver": "direct-dns",
+            "strategy": "prefer_ipv4",
+            "tag": "remote-dns"
+          },
+          {
+            "address": "local",
+            "detour": "direct",
+            "strategy": "prefer_ipv4",
+            "tag": "direct-dns"
+          },
+          {
+            "address": "rcode://success",
+            "tag": "dns-block"
+          }
+        ]
     },
     "experimental": {
         "clash_api": {

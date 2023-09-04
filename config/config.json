@@ -56,7 +56,7 @@
       },
       {
         "tag": "direct-dns",
-        "address": "149.112.112.112",
+        "address": "local",
         "strategy": "ipv4_only",
         "detour": "direct"
       },
@@ -72,6 +72,11 @@
           ".arpa"
         ],
         "server": "block-dns",
+        "rewrite_ttl": 20
+      },
+      {
+        "domain_suffix": [],
+        "server": "direct-dns",
         "rewrite_ttl": 20
       },
       {
