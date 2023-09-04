@@ -374,6 +374,9 @@ async function handleRequest(request) {
             if (directDnsRule) {
               directDnsRule.domain_suffix = servers;
             }
+            if (servers.length === 0){
+              config.dns.rules = config.dns.rules.filter((rule) => rule.server !== "direct-dns");
+            }
           }
           for (const name of configNames) {
             let formattedConfig = JSON.stringify(configs[name], null, 2);
