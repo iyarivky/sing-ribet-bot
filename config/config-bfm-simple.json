@@ -51,7 +51,8 @@
     ],
     "final":"Internet-dns",
     "reverse_mapping": true,
-    "independent_cache": true
+    "independent_cache": true,
+    "disable_cache": true
   },
   "inbounds": [
     {
