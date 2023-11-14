@@ -22,12 +22,6 @@
         "detour": "Internet"
       },
       {
-        "tag": "Best Latency-dns",
-        "address": "8.8.4.4",
-        "strategy": "ipv4_only",
-        "detour": "Best Latency"
-      },
-      {
         "tag": "direct-dns",
         "address": "local",
         "strategy": "ipv4_only",
@@ -40,32 +34,8 @@
     ],
     "rules": [
       {
-        "domain_suffix": [
-          ".arpa.",
-          ".arpa"
-        ],
-        "server": "block-dns",
-        "rewrite_ttl": 20
-      },
-      {
         "domain_suffix": [],
         "server": "direct-dns",
-        "rewrite_ttl": 20
-      },
-      {
-        "network": "udp",
-        "port": 443,
-        "server": "block-dns",
-        "rewrite_ttl": 20
-      },
-      {
-        "outbound": "Internet",
-        "server": "Internet-dns",
-        "rewrite_ttl": 20
-      },
-      {
-        "outbound": "Best Latency",
-        "server": "Best Latency-dns",
         "rewrite_ttl": 20
       },
       {
@@ -81,9 +51,7 @@
     ],
     "final":"Internet-dns",
     "reverse_mapping": true,
-    "strategy": "ipv4_only",
-    "independent_cache": true,
-    "disable_cache": true
+    "independent_cache": true
   },
   "inbounds": [
     {
