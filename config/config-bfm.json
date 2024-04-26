@@ -5,10 +5,13 @@
     "timestamp": true
   },
   "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db"
+    },
     "clash_api": {
       "external_controller": "0.0.0.0:9090",
-      "external_ui": "./dashboard",
-      "store_selected": true
+      "external_ui": "./dashboard"
     }
   },
   "dns": {
